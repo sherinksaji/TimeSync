@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MeetActivity">
+
+
+    <Button
+        android:id="@+id/Monday"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="176dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="316dp"
+        android:backgroundTint="#0ED6B9"
+        android:text="Mon"
+        android:textColor="#ffffff"
+        android:textSize="10dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/participantsTV" />
+
+    <Button
+        android:id="@+id/Friday"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="#0ED6B9"
+        android:text="Fri"
+        android:textColor="#ffffff"
+        android:textSize="10dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/participantsTV" />
+
+    <Button
+        android:id="@+id/Wednesday"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="#0ED6B9"
+        android:text="Wed"
+        android:textColor="#ffffff"
+        android:textSize="10dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/Tuesday"
+        app:layout_constraintTop_toBottomOf="@+id/participantsTV" />
+
+    <Button
+        android:id="@+id/Thursday"
+        android:layout_width="70dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="#0ED6B9"
+        android:text="Thu"
+        android:textColor="#ffffff"
+        android:textSize="10dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/Friday"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toEndOf="@+id/Wednesday"
+        app:layout_constraintTop_toBottomOf="@+id/participantsTV" />
+
+    <Button
+        android:id="@+id/Tuesday"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="#0ED6B9"
+        android:text="Tue"
+        android:textColor="#ffffff"
+        android:textSize="10dp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.33"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Monday"
+        app:layout_constraintTop_toBottomOf="@+id/participantsTV" />
+
+
+    <Button
+        android:id="@+id/backToProfile"
+        android:layout_width="270dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#0ED6B9"
+        android:text="Back"
+        android:textColor="#ffffff"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView2"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/leave"
+        android:onClick="delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/participantsTV"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meetingTitleTV"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
+
+    <TextView
+        android:id="@+id/creatorTV"
+        android:layout_width="264dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/meetingTitleTV"
+        android:layout_marginTop="24dp"
+        android:text="Creator"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meetingTitleTV" />
+
+    <TextView
+        android:id="@+id/participantsTV"
+        android:layout_width="264dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/creatorTV"
+        android:layout_marginTop="24dp"
+        android:text="Participants"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/leave"
+        app:layout_constraintHorizontal_bias="0.21"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/creatorTV" />
+
+    <TextView
+        android:id="@+id/meetingTitleTV"
+        android:layout_width="404dp"
+        android:layout_height="79dp"
+        android:text="MeetingTitle"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="60dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView2"
+        android:layout_width="405dp"
+        android:layout_height="299dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dayTV" />
+
+    <TextView
+        android:id="@+id/dayTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Day"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Free Slots On"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Wednesday" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
