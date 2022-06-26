@@ -133,7 +133,11 @@ Link to firebase database
     |       .
     |->.
        .
- .*/
+       .
+ This is a new way of syncing timetables where we just show a list of free slots where everybody in
+ group is free to meet. It is easier to see a list of free slots in android mobile phone
+ screen as compared to seeing occupied slots and then make out free slots to meet from it.
+ */
 import static java.lang.String.valueOf;
 
 import android.app.AlertDialog;
