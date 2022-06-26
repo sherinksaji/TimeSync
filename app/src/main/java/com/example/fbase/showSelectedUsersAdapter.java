@@ -1,5 +1,140 @@
 package com.example.fbase;
+/**
+This is the flow of the app (i put this almost wherever relevant for ease of
+reference):
+          ForgotPassword <--> LoginActivity <--> RegisterUserActivity(uses User)
+						            ^
+  (uses viewMeetingsAdapter         |
+  & meetingModel)	                v
+     ViewMeetingsActivity <--> HomeActivity <--> TimetableActivity(uses TimetableAdapter & Event)
+	  ^               ^                                    ^
+      |               |                                    |
+      v               v                                    v
+selectUsers       MeetActivity		      AddEventActivity(uses Event)
+Activity        (uses MeetAdapter)
+(uses
+selectUsersAdapter
+&showSelectedUsersAdapter)
 
+Other Backend classes:
+
+SortbyStartTime(used by AddEvent)
+  ^
+  |
+Time--> TimePeriod --> DirtyTimeSet --> AvailableSlots
+     (used for AddEvent              (used for MeetActivity)
+      &MeetActivity)
+
+
+This is how the firebase database looks like(i put this almost wherever relevant for ease of
+seeing):
+Link to firebase database
+|
+|->Friday
+|   |->uid
+|	|   |->eventKey
+|	|   |		|->key:eventKey
+|	|   |		|->period:"08:00 - 09:00"
+|	|   |		|->startTimeInt:800
+|	|   |		|->title:"CS"
+|	|   |->.
+|	|	   .
+|   |      .
+|	|->.
+|      .
+|      .
+|->Meetings
+|     |->meetingKey
+|	  |	  |->creatorName:"bobby"
+|	  |	  |->creatorUid:"uid"
+|	  |	  |->meetingKey:"meetingKey"
+|	  |	  |->meetingTitle:"abc"
+|	  |	  |->selectedUsers
+|	  |			|->uid
+|	  |			|    |->email:"robin@gmail.com"
+|     |         |    |->fullName:"robin"
+|     |         |    |->uid:"uid"
+|     |         |->.
+|     |            .
+|     |            .
+|     |->.
+|        .
+|        .
+|->Members
+|	|->uid
+|	|    |->email:"robin@gmail.com"
+|	|    |->fullName:"robin"
+|	|    |->uid:"uid"
+|	|->.
+|      .
+|      .
+|
+|->Monday
+|   |->uid
+|	|   |->eventKey
+|	|   |		|->key:eventKey
+|	|   |		|->period:"08:00 - 09:00"
+|	|   |		|->startTimeInt:800
+|	|   |		|->title:"CS"
+|	|   |->.
+|	|	   .
+|   |      .
+|	|->.
+|      .
+|      .
+|->Thursday
+|   |->uid
+|	|   |->eventKey
+|	|   |		|->key:eventKey
+|	|   |		|->period:"08:00 - 09:00"
+|	|   |		|->startTimeInt:800
+|	|   |		|->title:"CS"
+|	|   |->.
+|	|	   .
+|   |      .
+|	|->.
+|      .
+|      .
+|->Tuesday
+|   |->uid
+|	|   |->eventKey
+|	|   |		|->key:eventKey
+|	|   |		|->period:"08:00 - 09:00"
+|	|   |		|->startTimeInt:800
+|	|   |		|->title:"CS"
+|	|   |->.
+|	|	   .
+|   |      .
+|	|->.
+|      .
+|      .
+|->Wednesday
+|     |->uid
+|	  |   |->eventKey
+|	  |   |		|->key:eventKey
+|	  |   |		|->period:"08:00 - 09:00"
+|	  |   |		|->startTimeInt:800
+|	  |   |		|->title:"CS"
+|	  |   |->.
+|	  |	     .
+|     |      .
+|	  |->.
+|        .
+|        .
+|->myMeetings
+	|->uid
+    |    |->meetingKey
+	|    |	     |->creatorName:"bobby"
+	|    |	     |->creatorUid:"uid"
+	|    |	     |->meetingKey:"meetingKey"
+	|    |	     |->meetingTitle:"abc"
+    |    |->.
+	|	    .
+    |       .
+    |->.
+       .
+       .
+*/
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

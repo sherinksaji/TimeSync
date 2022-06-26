@@ -1,4 +1,17 @@
 package com.example.fbase;
+/**
+ DirtyTimeSet class takes in a TimePeriod object.
+ DirtyTimeSet has method void roundStartTime () to round’s  startTimes like 08:17 and 08:45 to
+ earlier perfect half an hours like 08:00 and 08:30.Another method is void roundEndTime() to
+ round endTimes like 09:17 and 09:45 to later perfect half an hours like 09:30 and 10:00.
+ int DurationInHalfHours() returns the number of halfAnHours between a startTime and endTime.
+ Method String matchStart() returns a DirtyTimeSet object’s first perfect half-hour TimePeriod based
+ on its already perfect startTime. Method String matchEnd() returns a DirtyTimeSet object’s last
+ perfect half-hour TimePeriod based on its already perfect endTime.
+ For example, if DirtyTimeSet is 08:00 - 12:00, then matchStart() returns “08:00 - 08:30” and
+ matchEnd() returns “11:30 - 12:00”.
+ */
+
 
 public class DirtyTimeSet {
     private TimePeriod dirtyTimeSet;

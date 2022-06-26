@@ -1,5 +1,195 @@
 package com.example.fbase;
 
+/**
+This is the flow of the app (i put this almost wherever relevant for ease of
+reference):
+          ForgotPassword <--> LoginActivity <--> RegisterUserActivity(uses User)
+						            ^
+  (uses viewMeetingsAdapter         |
+  & meetingModel)	                v
+     ViewMeetingsActivity <--> HomeActivity <--> TimetableActivity(uses TimetableAdapter & Event)
+	  ^               ^                                    ^
+      |               |                                    |
+      v               v                                    v
+selectUsers       MeetActivity		      AddEventActivity(uses Event)
+Activity        (uses MeetAdapter)
+(uses
+selectUsersAdapter
+&showSelectedUsersAdapter)
+
+Other Backend classes:
+
+SortbyStartTime(used by AddEvent)
+  ^
+  |
+Time--> TimePeriod --> DirtyTimeSet --> AvailableSlots
+     (used for AddEvent              (used for MeetActivity)
+      &MeetActivity)
+
+
+This is how the firebase database looks like(i put this almost wherever relevant for ease of
+seeing):
+Link to firebase database
+|
+|->Friday
+|   |->uid
+|	|   |->eventKey
+|	|   |		|->key:eventKey
+|	|   |		|->period:"08:00 - 09:00"
+|	|   |		|->startTimeInt:800
+|	|   |		|->title:"CS"
+|	|   |->.
+|	|	   .
+|   |      .
+|	|->.
+|      .
+|      .
+|->Meetings
+|     |->meetingKey
+|	  |	  |->creatorName:"bobby"
+|	  |	  |->creatorUid:"uid"
+|	  |	  |->meetingKey:"meetingKey"
+|	  |	  |->meetingTitle:"abc"
+|	  |	  |->selectedUsers
+|	  |			|->uid
+|	  |			|    |->email:"robin@gmail.com"
+|     |         |    |->fullName:"robin"
+|     |         |    |->uid:"uid"
+|     |         |->.
+|     |            .
+|     |            .
+|     |->.
+|        .
+|        .
+|->Members
+|	|->uid
+|	|    |->email:"robin@gmail.com"
+|	|    |->fullName:"robin"
+|	|    |->uid:"uid"
+|	|->.
+|      .
+|      .
+|
+|->Monday
+|   |->uid
+|	|   |->eventKey
+|	|   |		|->key:eventKey
+|	|   |		|->period:"08:00 - 09:00"
+|	|   |		|->startTimeInt:800
+|	|   |		|->title:"CS"
+|	|   |->.
+|	|	   .
+|   |      .
+|	|->.
+|      .
+|      .
+|->Thursday
+|   |->uid
+|	|   |->eventKey
+|	|   |		|->key:eventKey
+|	|   |		|->period:"08:00 - 09:00"
+|	|   |		|->startTimeInt:800
+|	|   |		|->title:"CS"
+|	|   |->.
+|	|	   .
+|   |      .
+|	|->.
+|      .
+|      .
+|->Tuesday
+|   |->uid
+|	|   |->eventKey
+|	|   |		|->key:eventKey
+|	|   |		|->period:"08:00 - 09:00"
+|	|   |		|->startTimeInt:800
+|	|   |		|->title:"CS"
+|	|   |->.
+|	|	   .
+|   |      .
+|	|->.
+|      .
+|      .
+|->Wednesday
+|     |->uid
+|	  |   |->eventKey
+|	  |   |		|->key:eventKey
+|	  |   |		|->period:"08:00 - 09:00"
+|	  |   |		|->startTimeInt:800
+|	  |   |		|->title:"CS"
+|	  |   |->.
+|	  |	     .
+|     |      .
+|	  |->.
+|        .
+|        .
+|->myMeetings
+	|->uid
+    |    |->meetingKey
+	|    |	     |->creatorName:"bobby"
+	|    |	     |->creatorUid:"uid"
+	|    |	     |->meetingKey:"meetingKey"
+	|    |	     |->meetingTitle:"abc"
+    |    |->.
+	|	    .
+    |       .
+    |->.
+       .
+       .
+TimetableActivity shows the individual timetable of the user.The TimeSync app only intends to
+display and sync timetables on a Monday to Friday basis given that the firebase database is limited.
+
+In the onCreate method, we set the layout of the activity as activity_timetable.xml.Next, we
+find out who the current user's user identification and assign it to myUID.
+We assign Button member variables buttonMon,buttonTues,buttonWed,buttonThu,buttonFri to resource ids
+buttonMonday, buttonTuesday,buttonWednesday,buttonThursday and buttonFriday of the XML file.
+We assign TextView member variable day to resource id textviewDay1.
+We assign Button member variable addButton to resource id addButton of the XML file.
+We assign Button member variable backButton to resource id backToProfile of the XML file.
+We assign Recyclerview member variable recyclerView to resource id timetableRV of the XML file.
+For each day,
+firstly,we create a FirebaseRecycler<Event> options:
+FirebaseRecycler<Event> options=new FirebaseRecyclerOptions.Builder<Event>()
+                    .setQuery(FirebaseDatabase.getInstance().getReference()
+                    .child("<day>").child(myUID).orderByChild("startTimeInt"), Event.class)
+                    .build();
+<Event> of FirebaseRecycler<Event> options just means that the elements inside options are Event
+class objects.
+secondly, we create TimetableAdapter object by passing in the respective day's options,
+myUID (current user's user id) and the respective day as a string (e.g."Monday").
+The TimetableAdapter class is an extension of of the FirebaseRecyclerAdapter. The TimetableAdapter
+will always be aware of any changes to the firebase realtime database once it starts listening to
+firebase realtime database.
+
+After that, we set the recyclerView's adapter as monAdapter and set the day textview as "Monday".
+By doing this settings, we make monday timetable the default view that the user sees.
+
+In the onStart method, we make all the adapters start listening to firebase database changes.
+This means that if the firebase database changes, then the adapters will also change from the
+start of the activity's lifecycle.
+
+In the onStop method, we make all the adapters stop listening to firebase database changes at the
+stop of the activity's lifecycle.
+
+
+In the onClick method, we write cases of what needs to happen when the user clicks the buttons.
+If user clicks addButton, an intent to the AddEventActivity must take place and information of which
+day to add the event to must be passed into AddEventActivity. The information can just be taken from
+the TextView day as we use TextView day to keep track of what day it is (further explained in the
+day buttons section).
+If the user clicks backButton(R.id backToProfile), then an intent to HomeActivity must take place.
+To explain the cases of the day buttons, lets take the example of R.id.buttonMonday:
+When the user clicks button with R.id.buttonMonday:
+Firstly, TextView day is set to "Monday". So in essence, whenever user clicks a day button, TextView
+is set to that particular day. So the TextView can be used to keep track of what day it is whenever
+user needs to add new event.
+Secondly, recyclerView's adapter is swapped to monAdapter. So in essence, whenever user clicks a
+day button, recyclerView's adapter is swapped to the adapter of that particular day to show the
+events of that particular day.
+
+
+
+*/
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +214,7 @@ public class TimetableActivity extends AppCompatActivity implements View.OnClick
     TimetableAdapter thursAdapter;
     TimetableAdapter friAdapter;
     Button buttonMon,buttonTues,buttonWed,buttonThu,buttonFri,addButton,backButton;
-    ImageButton upButton,downButton;
+
     String myUID;
     TextView day;
 
@@ -34,7 +224,6 @@ public class TimetableActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable);
 
-        Intent intent = getIntent();
         myUID= FirebaseAuth.getInstance ().getCurrentUser ().getUid ();
 
         buttonMon=(Button)findViewById(R.id.buttonMonday);
@@ -59,7 +248,7 @@ public class TimetableActivity extends AppCompatActivity implements View.OnClick
         backButton = (Button) findViewById(R.id.backToProfile);
         backButton.setOnClickListener(this);
 
-        recyclerView = (RecyclerView)findViewById(R.id.mondayTimetableRV);
+        recyclerView = (RecyclerView)findViewById(R.id.timetableRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 

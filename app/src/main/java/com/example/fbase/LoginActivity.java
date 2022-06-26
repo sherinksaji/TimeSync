@@ -1,5 +1,23 @@
 package com.example.fbase;
+/**
+This is the flow of the app (i put this almost wherever relevant for ease of
+reference):
+          ForgotPassword <--> LoginActivity <--> RegisterUserActivity(uses User)
+						            ^
+  (uses viewMeetingsAdapter         |
+  & meetingModel)	                v
+     ViewMeetingsActivity <--> HomeActivity <--> TimetableActivity(uses TimetableAdapter & Event)
+	  ^               ^                                    ^
+      |               |                                    |
+      v               v                                    v
+selectUsers       MeetActivity		      AddEventActivity(uses Event)
+Activity        (uses MeetAdapter)
+(uses
+selectUsersAdapter
+&showSelectedUsersAdapter)
 
+
+*/
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;

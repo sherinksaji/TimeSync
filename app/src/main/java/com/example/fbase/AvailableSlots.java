@@ -1,5 +1,39 @@
 package com.example.fbase;
 
+/**
+ This is the flow of the app (i put this almost wherever relevant for ease of
+ reference):
+ ForgotPassword <--> LoginActivity <--> RegisterUserActivity(uses User)
+ ^
+ (uses viewMeetingsAdapter         |
+ & meetingModel)	                v
+ ViewMeetingsActivity <--> HomeActivity <--> TimetableActivity(uses TimetableAdapter & Event)
+ ^               ^                                    ^
+ |               |                                    |
+ v               v                                    v
+ selectUsers       MeetActivity		      AddEventActivity(uses Event)
+ Activity        (uses MeetAdapter)
+ (uses
+ selectUsersAdapter
+ &showSelectedUsersAdapter)
+
+ Other Backend classes:
+
+ SortbyStartTime(used by AddEvent)
+ ^
+ |
+ Time--> TimePeriod --> DirtyTimeSet --> AvailableSlots
+ (used for AddEvent              (used for MeetActivity)
+ &MeetActivity)
+
+ AvailableSlots class takes in a String array of OccuppiedTimeSlotsOfDay.
+ AvailableSlots has array defaultSlots that contains half an hour time period strings
+ from 07:00 to 22:00 as we assume that people only want to meet in those hours.
+ availableSlots is cloned from defaultSlots. void popOccuppiedTimeSlots (DirtyTimeSet t ) rounds
+ the DirtyTimeSet ,t, and finds the  DurationInHalfHours. Then, t.matchStart() and t.matchEnd() and
+ all the halfAnHours between are removed from availableSlots.
+ ArrayList <String> DailyAvailableSlots returns all the available slots that are left.
+ */
 import java.util.ArrayList;
 import java.util.Arrays;
 

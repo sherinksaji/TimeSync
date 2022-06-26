@@ -48,7 +48,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mondayTimetableRV" />
+        app:layout_constraintTop_toBottomOf="@id/timetableRV" />
 
     <Button
         android:id="@+id/backToProfile"
@@ -65,7 +65,7 @@
         app:layout_constraintTop_toBottomOf="@id/addButton" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mondayTimetableRV"
+        android:id="@+id/timetableRV"
         android:layout_width="419dp"
         android:layout_height="435dp"
         app:layout_constraintBottom_toTopOf="@id/addButton"
@@ -130,6 +130,6 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonWednesday"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/mondayTimetableRV" />
+        app:layout_constraintBottom_toTopOf="@id/timetableRV" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
