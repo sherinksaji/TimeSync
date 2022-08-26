@@ -1,5 +1,7 @@
 # TimeSync
-TimeSync is an app that syncs Timetables. This app uses Firebase RealtimeDatabase.        
+TimeSync is an app that syncs Timetables. 
+It was made using Android Studio.
+This app uses Firebase RealtimeDatabase.        
 When pressing build, in values.xml file there may be an error.
 If there is, here is a quick fix:
 	in line 1577, just change the hyphen in <overlayable name="rotary-ui"> to underscore.
